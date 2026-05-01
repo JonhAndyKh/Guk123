@@ -1,0 +1,16 @@
+kind = "web"
+previewPath = "/"
+title = "KIZOTOPUP"
+version = "1.0.0"
+id = "kizotopup-nextjs"
+
+[[services]]
+localPort = 3000
+name = "KIZOTOPUP Store"
+paths = ["/"]
+
+[services.env]
+PORT = "3000"
+
+[services.development]
+run = "node node_modules/next/dist/bin/next dev -p 3000 -H 0.0.0.0"

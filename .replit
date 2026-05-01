@@ -26,3 +26,17 @@ externalPort = 8080
 [[ports]]
 localPort = 8081
 externalPort = 80
+
+[[ports]]
+localPort = 8082
+externalPort = 3000
+
+[[ports]]
+localPort = 22918
+externalPort = 3001
+
+[userenv]
+
+[userenv.shared]
+JWT_SECRET = "02fc121c2dd049f7017b7cf58515b27f183792d2f583b2097f69004a021cfacc7e6f052b95f596e587cdb4514caa0fc9"
+PAYMENT_SIMULATION_MODE = "true"
