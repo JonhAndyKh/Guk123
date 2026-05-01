@@ -1,4 +1,6 @@
 {
-  "/page": "app/page.js",
-  "/games/[slug]/page": "app/games/[slug]/page.js"
+  "/api/orders/[orderNumber]/route": "app/api/orders/[orderNumber]/route.js",
+  "/api/orders/route": "app/api/orders/route.js",
+  "/api/orders/recent/route": "app/api/orders/recent/route.js",
+  "/page": "app/page.js"
 }

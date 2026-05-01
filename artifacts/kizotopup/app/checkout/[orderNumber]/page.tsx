@@ -55,6 +55,7 @@ export default function CheckoutPage() {
   const [simulating, setSimulating] = useState(false);
   const [checking, setChecking] = useState(false);
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const sseRef = useRef<EventSource | null>(null);
 
   const fetchOrder = useCallback(async () => {
     try {
@@ -81,32 +82,60 @@ export default function CheckoutPage() {
     fetchOrder().finally(() => setLoading(false));
   }, [fetchOrder]);
 
-  // Polling while awaiting payment
+  // Polling + SSE while awaiting payment
   useEffect(() => {
     if (!order) return;
+
+    // Terminal / paid — stop everything and redirect if paid
     if (TERMINAL.has(order.status) || PAID_STATES.has(order.status)) {
-      if (pollRef.current) {
-        clearInterval(pollRef.current);
-        pollRef.current = null;
-      }
+      if (pollRef.current) { clearInterval(pollRef.current); pollRef.current = null; }
+      if (sseRef.current) { sseRef.current.close(); sseRef.current = null; }
       if (PAID_STATES.has(order.status)) {
-        const t = setTimeout(() => {
-          router.push(`/order?number=${order.orderNumber}`);
-        }, 2000);
+        const t = setTimeout(() => router.push(`/order?number=${order.orderNumber}`), 2000);
         return () => clearTimeout(t);
       }
       return;
     }
 
-    pollRef.current = setInterval(() => {
-      fetchOrder();
-    }, 3000);
+    // ── SSE: real-time stream from KHPay (via server proxy) ──
+    if (!sseRef.current && !order.paymentRef?.startsWith("SIM-")) {
+      const es = new EventSource(`/api/payment/stream?order=${encodeURIComponent(order.orderNumber)}`);
+      sseRef.current = es;
+
+      es.addEventListener("status_change", (e) => {
+        try {
+          const { status } = JSON.parse(e.data);
+          if (status === "paid" || status === "paid") fetchOrder();
+          if (["paid", "expired", "failed"].includes(status)) {
+            es.close();
+            sseRef.current = null;
+            fetchOrder();
+          }
+        } catch { /* ignore parse errors */ }
+      });
+
+      es.addEventListener("payment_status", (e) => {
+        try {
+          const { status } = JSON.parse(e.data);
+          if (status === "paid") { fetchOrder(); es.close(); sseRef.current = null; }
+        } catch { /* */ }
+      });
+
+      es.onerror = () => {
+        // SSE failed — fall back to polling only
+        es.close();
+        sseRef.current = null;
+      };
+    }
+
+    // ── Polling as fallback (every 4s) ──
+    if (!pollRef.current) {
+      pollRef.current = setInterval(() => fetchOrder(), 4000);
+    }
 
     return () => {
-      if (pollRef.current) {
-        clearInterval(pollRef.current);
-        pollRef.current = null;
-      }
+      if (pollRef.current) { clearInterval(pollRef.current); pollRef.current = null; }
+      if (sseRef.current) { sseRef.current.close(); sseRef.current = null; }
     };
   }, [order, fetchOrder, router]);
 
