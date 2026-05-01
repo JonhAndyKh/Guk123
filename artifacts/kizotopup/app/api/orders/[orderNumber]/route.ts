@@ -72,11 +72,7 @@ export async function GET(
     createdAt: order.createdAt.toISOString(),
     paidAt: order.paidAt?.toISOString() ?? null,
     deliveredAt: order.deliveredAt?.toISOString() ?? null,
-    // Expose KHPay key for client-side widget when server-side QR failed
-    khpayKey:
-      order.status === "PENDING" && !order.qrString
-        ? (process.env.KHPAY_API_KEY || "").trim() || null
-        : null,
+    khpayKey: null,
   });
 }
 

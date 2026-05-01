@@ -47,6 +47,12 @@ export async function POST(
   // { event: "payment.paid", data: { transaction_id, amount, currency, metadata, ... }, timestamp }
   const event: string = payload.event || "";
   const data = payload.data || {};
+
+  // KHPay sends a test ping to verify the endpoint is reachable — always return 200
+  if (event === "webhook.test") {
+    return NextResponse.json({ ok: true, received: "webhook.test" });
+  }
+
   const transactionId: string | undefined = data.transaction_id;
   // We set metadata.order_number when creating the QR (see lib/payment.ts)
   const orderNumber: string | undefined =
@@ -60,8 +66,9 @@ export async function POST(
     ? await prisma.order.findUnique({ where: { orderNumber } })
     : await prisma.order.findFirst({ where: { paymentRef: transactionId! } });
 
+  // Return 200 even for unknown orders to avoid KHPay retrying indefinitely
   if (!order) {
-    return NextResponse.json({ error: "Order not found" }, { status: 404 });
+    return NextResponse.json({ ok: true, skipped: true });
   }
 
   // Idempotency: do nothing if already in a terminal state
