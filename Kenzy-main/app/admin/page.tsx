@@ -94,7 +94,7 @@ export default async function AdminDashboard() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
         <div>
           <h1 className="font-display text-2xl sm:text-3xl font-bold">Dashboard</h1>
-          <p className="text-fox-muted text-sm">Overview of your RITHTOPUP operation.</p>
+          <p className="text-fox-muted text-sm">Overview of your KIZOTOPUP operation.</p>
         </div>
         <Link href="/admin/orders" className="btn-primary">
           View all orders

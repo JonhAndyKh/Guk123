@@ -66,7 +66,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-8 pt-6 border-t border-fox-border/40 flex flex-col sm:flex-row justify-between items-center gap-3 text-[11px] text-fox-muted">
-          <p>&copy; {new Date().getFullYear()} RITHTOPUP. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} KIZOTOPUP. All rights reserved.</p>
           <p>Not affiliated with Moonton, Garena, Tencent or HoYoverse.</p>
         </div>
       </div>

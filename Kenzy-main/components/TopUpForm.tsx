@@ -241,7 +241,7 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
                   </span>
                 )}
                 {isSelected && (
-                  <span className="absolute top-2 left-2 flex h-5 w-5 items-center justify-center rounded-full bg-fox-primary text-black shadow-md shadow-fox-primary/50">
+                  <span className="absolute top-2 right-2 flex h-5 w-5 items-center justify-center rounded-full bg-fox-primary text-black shadow-md shadow-fox-primary/50">
                     <svg className="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
                       <path d="M5 13l4 4L19 7" />
                     </svg>

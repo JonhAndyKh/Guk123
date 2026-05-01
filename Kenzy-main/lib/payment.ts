@@ -33,7 +33,7 @@ const KHPAY_HEADERS: Record<string, string> = {
   "Authorization": `Bearer ${KHPAY_KEY}`,
   "Content-Type": "application/json",
   "Accept": "application/json",
-  "User-Agent": "RITHTOPUP/1.0 (Server; Node)",
+  "User-Agent": "KIZOTOPUP/1.0 (Server; Node)",
   "Accept-Language": "en-US,en;q=0.9",
 };
 
@@ -90,7 +90,7 @@ async function initiateKhpay(args: InitiatePaymentArgs): Promise<PaymentInitResu
   const body: Record<string, unknown> = {
     amount: args.amountUsd.toFixed(2),
     currency: "USD",
-    note: args.note || `RITHTOPUP Order ${args.orderNumber}`,
+    note: args.note || `KIZOTOPUP Order ${args.orderNumber}`,
     metadata: {
       order_number: args.orderNumber,
       ...(args.customerEmail ? { email: args.customerEmail } : {}),

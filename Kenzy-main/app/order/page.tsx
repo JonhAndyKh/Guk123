@@ -317,7 +317,7 @@ export default function OrderPage() {
                   Your credits have been delivered! Check your in-game account.
                 </div>
                 <a
-                  href={`https://t.me/share/url?url=${encodeURIComponent(typeof window !== "undefined" ? window.location.href : "")}&text=${encodeURIComponent(`⚡ Just topped up ${order.productName} for ${order.gameName} on RITHTOPUP! Fast & easy 🔥`)}`}
+                  href={`https://t.me/share/url?url=${encodeURIComponent(typeof window !== "undefined" ? window.location.href : "")}&text=${encodeURIComponent(`⚡ Just topped up ${order.productName} for ${order.gameName} on KIZOTOPUP! Fast & easy 🔥`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2 w-full rounded-xl border border-[#229ED9]/40 bg-[#229ED9]/10 hover:bg-[#229ED9]/20 text-[#229ED9] py-3 text-sm font-medium transition-colors"

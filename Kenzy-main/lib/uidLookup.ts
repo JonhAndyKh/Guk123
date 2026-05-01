@@ -57,7 +57,7 @@ export async function lookupFreeFire(uid: string): Promise<string | null> {
         method: "GET",
         headers: {
           Accept: "application/json",
-          "User-Agent": "RITHTOPUP/1.0",
+          "User-Agent": "KIZOTOPUP/1.0",
         },
         cache: "no-store",
         signal: controller.signal,
